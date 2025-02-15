@@ -1,0 +1,23 @@
+.slider-container {
+  display: flex; /* Habilitar Flexbox */
+  width: 100%; /* Ocupar todo el ancho */
+  height: 100vh; /* Ocupar toda la altura de la pantalla */
+  overflow-x: auto; /* Permitir desplazamiento horizontal si los elementos no caben */
+  scroll-snap-type: x mandatory; /* Ajustar el desplazamiento a los elementos */
+}
+
+.slide {
+  flex: 0 0 100%; /* Cada elemento ocupa el 100% del ancho */
+  height: 100%; /* Cada elemento ocupa el 100% de la altura */
+  scroll-snap-align: start; /* Alinear el inicio de cada elemento al inicio del contenedor */
+}
+
+.slide img,
+.slide video {
+  width: 100%; /* La imagen o video ocupa todo el ancho del slide */
+  height: 100%; /* La imagen o video ocupa toda la altura del slide */
+  object-fit: cover; /* Ajustar la imagen o video para cubrir todo el slide */
+}
+
+@import url('components/slider.css');
+@import url('components/video-player.css');

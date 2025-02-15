@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Redirigir solicitudes a vistas específicas
+RewriteRule ^vista1$ vistas/vista1.html [L]
+RewriteRule ^vista2$ vistas/vista2.html [L]
+# ... otras reglas para cada vista
+
+# Redirigir cualquier otra solicitud a index.php (opcional)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.html [L]
