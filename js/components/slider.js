@@ -8,13 +8,9 @@ class Slider {
     this.videoPlayers = []; // Array para guardar los VideoPlayer
   }
 
-  loadData(dataUrl) {
-    fetch(dataUrl)
-      .then(response => response.json())
-      .then(data => {
-        this.items = data.items;
-        this.render();
-      });
+  loadData(data) {
+    this.items = data.items;
+    this.render();
   }
 
   render() {

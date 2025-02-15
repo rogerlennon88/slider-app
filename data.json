@@ -2,13 +2,6 @@
     "items": [
       {
         "type": "video",
-        "name": "video_a",
-        "location": "videos/video_a.webm",
-        "preloadTime": 12000,
-        "order": 1
-      },
-      {
-        "type": "video",
         "name": "video_b",
         "location": "videos/video_b.webm",
         "preloadTime": 8000,
