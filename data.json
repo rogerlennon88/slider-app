@@ -2,17 +2,22 @@
     "items": [
       {
         "type": "video",
+        "name": "video_a",
+        "location": "videos/video_a.webm",
+        "order": 1
+      },
+      {
+        "type": "video",
         "name": "video_b",
         "location": "videos/video_b.webm",
-        "preloadTime": 8000,
         "order": 2
       },
       {
         "type": "video",
         "name": "video_c",
         "location": "videos/video_c.webm",
-        "preloadTime": 16000,
         "order": 3
       }
-    ]
+    ],
+    "maxReproductions": 2
   }

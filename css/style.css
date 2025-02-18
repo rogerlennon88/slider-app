@@ -4,6 +4,7 @@
   height: 100vh; /* Ocupar toda la altura de la pantalla */
   overflow-x: auto; /* Permitir desplazamiento horizontal si los elementos no caben */
   scroll-snap-type: x mandatory; /* Ajustar el desplazamiento a los elementos */
+  overflow: hidden; /* Ocultar las barras de desplazamiento */
 }
 
 .slide {
@@ -17,6 +18,22 @@
   width: 100%; /* La imagen o video ocupa todo el ancho del slide */
   height: 100%; /* La imagen o video ocupa toda la altura del slide */
   object-fit: cover; /* Ajustar la imagen o video para cubrir todo el slide */
+}
+
+.fullscreen-button-container {
+  position: absolute; /* Posicionar el botón sobre el slider */
+  top: 10px; /* Ajustar la posición vertical */
+  left: 10px; /* Ajustar la posición horizontal */
+  z-index: 10; /* Asegurar que el botón esté por encima del slider */
+}
+
+#fullscreen-button {
+  /* Estilos para el botón */
+  padding: 8px 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
 
 @import url('components/slider.css');

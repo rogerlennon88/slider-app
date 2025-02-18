@@ -2,15 +2,15 @@ class VideoPlayer {
   constructor(item, slider) {
     this.item = item;
     this.slider = slider;
-    this.video = null; // Guardar la referencia al elemento video
+    this.video = null;
   }
 
   render() {
     this.video = document.createElement('video');
     this.video.src = this.item.location;
     this.video.preload = 'metadata';
-    this.video.autoplay = true;
     this.video.muted = true;
+    this.video.autoplay = true;
 
     this.video.addEventListener('ended', () => {
       this.slider.nextSlide();
@@ -22,11 +22,15 @@ class VideoPlayer {
 
     return this.video;
   }
-  
-  // Nueva función para iniciar la reproducción
+
   play() {
     if (this.video) {
-      this.video.play();
+      const playPromise = this.video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.error("Error de reproducción:", error);
+        });
+      }
     }
   }
 }
