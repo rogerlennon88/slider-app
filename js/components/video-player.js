@@ -16,10 +16,6 @@ class VideoPlayer {
       this.slider.nextSlide();
     });
 
-    setTimeout(() => {
-      this.video.preload = 'auto';
-    }, this.item.preloadTime);
-
     return this.video;
   }
 

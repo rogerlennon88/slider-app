@@ -3,71 +3,63 @@ import VideoPlayer from './video-player.js';
 class Slider {
   constructor(container, cargarDatos) {
     this.container = container;
-    this.items = [];
+    this.videoNames = []; // Inicializar videoNames como un array vacío
     this.currentIndex = 0;
     this.videoPlayers = [];
     this.reproductionCounter = 0;
     this.maxReproductions = 0;
-    this.cargarDatos = cargarDatos; // Guardar la referencia a la función
+    this.cargarDatos = cargarDatos;
   }
 
   loadData(data) {
-    this.items = data.items;
-    this.maxReproductions = data.maxReproductions || 3; // Valor predeterminado: 3
+    this.videoNames = data.videos || []; // Asignar un array vacío si data.videos no existe
+    this.maxReproductions = data.maxReproductions || 3;
     this.render();
   }
 
   render() {
-    this.container.innerHTML = ''; // Limpiar el contenedor
+    this.container.innerHTML = '';
     this.container.classList.add('slider-container');
-    this.videoPlayers = []; // Reiniciar el array de videoPlayers
+    this.videoPlayers = [];
 
-    this.items.forEach(item => {
+    if (this.videoNames.length === 0) return; // Salir si no hay videos
+
+    this.videoNames.forEach(videoName => {
       const slide = document.createElement('div');
       slide.classList.add('slide');
 
-      const videoPlayer = new VideoPlayer(item, this);
+      const videoPlayer = new VideoPlayer({ location: `videos/${videoName}` }, this);
       slide.appendChild(videoPlayer.render());
       this.videoPlayers.push(videoPlayer);
-
       this.container.appendChild(slide);
     });
 
-    // Iniciar la reproducción del primer video (si existe) después de un retardo
     setTimeout(() => {
       if (this.videoPlayers.length > 0) {
         this.videoPlayers[0].play();
       }
-    }, 500); // Ajusta este retardo si es necesario
+    }, 500);
   }
 
   nextSlide() {
-    this.currentIndex = (this.currentIndex + 1) % this.items.length;
-    const nextItem = this.items[this.currentIndex];
+    this.currentIndex = (this.currentIndex + 1) % this.videoNames.length;
+    const nextVideoPlayer = this.videoPlayers[this.currentIndex];
 
-    if (nextItem.type === 'video') {
-      const nextVideoPlayer = this.videoPlayers.find(vp => vp.item === nextItem);
-      if (nextVideoPlayer && nextVideoPlayer.video) {
-        const playPromise = nextVideoPlayer.video.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            this.container.scrollTo({
-              left: this.container.offsetWidth * this.currentIndex,
-              behavior: 'smooth'
-            });
-          }).catch(error => {
-            console.error("Error de reproducción:", error);
-            this.container.scrollTo({
-              left: this.container.offsetWidth * this.currentIndex,
-              behavior: 'smooth'
-            });
-          });
-        } else {
+    if (nextVideoPlayer && nextVideoPlayer.video) {
+      const playPromise = nextVideoPlayer.video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
           this.container.scrollTo({
             left: this.container.offsetWidth * this.currentIndex,
             behavior: 'smooth'
           });
-        }
+        }).catch(error => {
+          console.error("Error de reproducción:", error);
+          this.container.scrollTo({
+            left: this.container.offsetWidth * this.currentIndex,
+            behavior: 'smooth'
+          });
+        });
       } else {
         this.container.scrollTo({
           left: this.container.offsetWidth * this.currentIndex,
@@ -95,23 +87,17 @@ class Slider {
     fetch('data.json')
       .then(response => response.json())
       .then(newData => {
-        // 1. Guardar los nuevos datos *temporalmente*
-        this.nuevosDatos = newData.items;
+        this.videoNames = newData.videos || []; // Asignar un array vacío si newData.videos no existe
         this.maxReproductions = newData.maxReproductions || 3;
 
-        // 2. Esperar a que termine el último video *antes* de renderizar
         const lastVideoPlayer = this.videoPlayers[this.videoPlayers.length - 1];
 
         if (lastVideoPlayer && lastVideoPlayer.video) {
           lastVideoPlayer.video.addEventListener('ended', () => {
-            this.items = this.nuevosDatos; // Asignar los nuevos datos *después* de que termine el video
-            this.reproductionCounter = 0; // Reiniciar el contador *aquí*
-            this.render(); // Renderizar el slider con los nuevos datos
+            this.render();
           }, { once: true });
         } else {
-          this.items = this.nuevosDatos; // Asignar los nuevos datos inmediatamente si no hay videos
-          this.reproductionCounter = 0; // Reiniciar el contador *aquí*
-          this.render(); // Renderizar el slider con los nuevos datos
+          this.render();
         }
       });
   }

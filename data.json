@@ -1,23 +1,8 @@
 {
-    "items": [
-      {
-        "type": "video",
-        "name": "video_a",
-        "location": "videos/video_a.webm",
-        "order": 1
-      },
-      {
-        "type": "video",
-        "name": "video_b",
-        "location": "videos/video_b.webm",
-        "order": 2
-      },
-      {
-        "type": "video",
-        "name": "video_c",
-        "location": "videos/video_c.webm",
-        "order": 3
-      }
-    ],
-    "maxReproductions": 2
-  }
+  "videos": [
+    "video_c.webm",
+    "video_a.webm",
+    "video_b.webm"
+  ],
+  "maxReproductions": 2
+}
